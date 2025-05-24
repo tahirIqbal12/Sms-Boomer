@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>H4k3R BOOMBAR</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      color: #00ff00;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 3em;
+      text-shadow: 0 0 20px lime, 0 0 30px green;
+      margin-bottom: 30px;
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      width: 250px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #00ff00;
+      box-shadow: 0 0 10px lime;
+    }
+
+    button {
+      background-color: black;
+      color: #00ff00;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: lime;
+      color: black;
+    }
+
+    .link-buttons a {
+      display: inline-block;
+      margin: 10px;
+      background: black;
+      color: #00ff00;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px green;
+    }
+
+    .link-buttons a:hover {
+      background: lime;
+      color: black;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px lime, 0 0 20px green;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="container">
+  <h1>Black Hacker BOOMBAR</h1>
+
+  <input type="text" id="number" placeholder="Enter Number e.g 033xxxxxxx" /><br>
+  <select id="amount">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+    <option value="custom">Custom</option>
+  </select><br>
+  <input type="number" id="customAmount" placeholder="Enter Custom Amount" style="display:none;" /><br>
+
+  <button onclick="boomb()">BOOOMB💣💥</button>
+  <p id="statusMessage"></p>
+
+  <div class="link-buttons">
+    <a href="https://wa.me/923321709972?text=Hello" target="_blank">Contact Owner</a>
+    <a href="https://whatsapp.com/channel/0029Vam4k2Q59PwQWtA9I22m" target="_blank">Join WhatsApp Channel</a>
+    <a href="https://whatsapp.com/channel/0029Vam4k2Q59PwQWtA9I22m" target="_blank">Join WhatsApp Group</a>
+  </div>
+
+  <div class="footer">CREDIT : Shadow Innovation</div>
+</div>
+
+<script>
+  // Matrix animation
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = '01';
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+
+  const drops = [];
+  for (let i = 0; i < columns; i++) {
+    drops[i] = 1;
+  }
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#0f0';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 33);
+</script>
+
+<script>
+  const amountSelect = document.getElementById("amount");
+  const customInput = document.getElementById("customAmount");
+
+  amountSelect.addEventListener("change", () => {
+    customInput.style.display = amountSelect.value === "custom" ? "inline-block" : "none";
+  });
+
+  function boomb() {
+    const number = document.getElementById("number").value;
+    let amount = amountSelect.value;
+    if (amount === "custom") {
+      amount = document.getElementById("customAmount").value;
+    }
+
+    if (!number || !amount) {
+      alert("Please enter number and amount.");
+      return;
+    }
+
+    document.getElementById("statusMessage").textContent = "Boombing processing...";
+
+    const url = `https://shadowtools.site/smsbomberapi/smsbomber.php?number=${number}&amount=${amount}`;
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("statusMessage").textContent = data;
+      })
+      .catch(error => {
+        document.getElementById("statusMessage").textContent = "Something went wrong!";
+      });
+  }
+</script>
+</body>
+</html>
